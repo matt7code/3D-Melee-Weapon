@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://dunj8qp0smheh"]
+
+[ext_resource type="PackedScene" uid="uid://b3dx313hunr6x" path="res://player.tscn" id="1_ehpbv"]
+[ext_resource type="PackedScene" uid="uid://7b203d2hcdvl" path="res://enemy.tscn" id="2_psqwf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qu11p"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_67bko"]
+sky_material = SubResource("ProceduralSkyMaterial_qu11p")
+
+[sub_resource type="Environment" id="Environment_xiol1"]
+background_mode = 2
+sky = SubResource("Sky_67bko")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_556ud"]
+albedo_color = Color(0.0244988, 0.348596, 0.175689, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wm4es"]
+material = SubResource("StandardMaterial3D_556ud")
+size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0tlx5"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[node name="World" type="Node"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xiol1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_wm4es")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_0tlx5")
+
+[node name="Player" parent="." instance=ExtResource("1_ehpbv")]
+
+[node name="Enemy1" parent="." instance=ExtResource("2_psqwf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00782228, 0, -7)
+health = 100
+
+[node name="Enemy2" parent="." instance=ExtResource("2_psqwf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.66485, 0, -1.07681)
+health = 100
+
+[node name="Enemy3" parent="." instance=ExtResource("2_psqwf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3169, 0, -1.07681)
+health = 100
+
+[node name="Enemy4" parent="." instance=ExtResource("2_psqwf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.246763, 0, 2.94343)
+health = 100
